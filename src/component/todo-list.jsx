@@ -14,9 +14,14 @@ import { useEffect } from "react";
 import EditeTask from "./editeTask";
 
 export default function TodoList() {
-  const [tasks, setTasks] = useState(
-    JSON.parse(localStorage.getItem("allTaskTodo"))
-  );
+const [tasks, setTasks] = useState(() => {
+
+    const stored = localStorage.getItem("allTaskTodo");
+    if (!stored) return []; // لا يوجد بيانات مخزنة
+    const parsed = JSON.parse(stored);
+    return Array.isArray(parsed) ? parsed : [];
+
+});
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("allTaskTodo"));
     if (savedTasks && savedTasks.length > 0) {
